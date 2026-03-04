@@ -702,10 +702,18 @@
 
     .reveal {
       opacity: 0;
-      transform: translateY(32px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+      animation: forceShow 0s ease 1.5s forwards;
     }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal.visible { 
+      opacity: 1 !important; 
+      transform: translateY(0) !important;
+      animation: none;
+    }
+    @keyframes forceShow {
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
@@ -1207,9 +1215,39 @@
   <span>© 2026</span> Srija Chada · Built with <span>♥</span> · Mobile, Alabama
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
-  // Scroll reveal
-  const reveals = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
+<script>
+  // Scroll reveal - robust version
+  function showElement(el) { el.classList.add('visible'); }
+
+  // Show all immediately as fallback
+  function revealAll() {
+    document.querySelectorAll('.reveal').forEach(showElement);
+  }
+
+  // Use IntersectionObserver with low threshold
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) showElement(e.target); });
+    }, { threshold: 0.01, rootMargin: '0px 0px -20px 0px' });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  }
+
+  // Backup scroll listener
+  window.addEventListener('scroll', () => {
+    document.querySelectorAll('.reveal:not(.visible)').forEach(el => {
+      if (el.getBoundingClientRect().top < window.innerHeight) showElement(el);
+    });
+    document.querySelector('nav').style.boxShadow = 
+      window.scrollY > 50 ? '0 4px 30px rgba(0,0,0,0.4)' : 'none';
+  });
+
+  // Force show everything after 800ms no matter what
+  setTimeout(revealAll, 800);
+
+  // Also trigger on page load
+  window.addEventListener('load', () => {
+    setTimeout(revealAll, 300);
+  });
+</script>
+</body>
+</html>
