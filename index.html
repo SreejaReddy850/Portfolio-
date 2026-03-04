@@ -267,11 +267,18 @@
     .stat { text-align: center; }
     .stat-num {
       font-family: 'DM Serif Display', serif;
-      font-size: 40px;
+      font-size: 44px;
       color: var(--teal-light);
       display: block;
+      line-height: 1;
     }
-    .stat-label { font-size: 12px; color: var(--gray); letter-spacing: 1px; text-transform: uppercase; }
+    .stat-label { font-size: 11px; color: var(--gray); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 6px; display: block; }
+
+    .stat-divider {
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(180deg, transparent, var(--teal), transparent);
+    }
 
     /* SECTIONS */
     section { padding: 100px 60px; }
@@ -739,12 +746,14 @@
       section { padding: 80px 24px; }
       #hero { padding: 120px 24px 80px; }
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
-      .hero-inner { flex-direction: column-reverse; gap: 32px; align-items: center; }
+      .hero-inner { flex-direction: column; gap: 32px; align-items: center; text-align: center; }
+      .hero-stats-middle { flex-direction: row; gap: 24px; }
+      .stat-divider { width: 40px; height: 1px; }
       .hero-photo-wrap { width: 200px; height: 200px; }
       .hero-photo { width: 200px; height: 200px; }
       .hero-photo-wrap::before { width: 224px; height: 224px; top: -12px; left: -12px; }
       .hero-photo-wrap::after { width: 208px; height: 208px; top: -4px; left: -4px; }
-      .hero-stats-row { gap: 24px; }
+      .hero-btns { justify-content: center; }
     }
   </style>
 </head>
@@ -769,6 +778,8 @@
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-inner">
+
+    <!-- LEFT: Name + desc + buttons -->
     <div class="hero-content">
       <p class="hero-tag">// data science &amp; machine learning</p>
       <h1 class="hero-name">Srija<br/><span>Chada</span></h1>
@@ -782,24 +793,31 @@
         <a href="#projects" class="btn-primary">View My Work</a>
         <a href="#contact" class="btn-outline">Get In Touch</a>
       </div>
-      <div class="hero-stats-row">
-        <div class="stat">
-          <span class="stat-num">3.6</span>
-          <span class="stat-label">GPA</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num">4+</span>
-          <span class="stat-label">Projects</span>
-        </div>
-        <div class="stat">
-          <span class="stat-num">10%</span>
-          <span class="stat-label">ML Accuracy Boost</span>
-        </div>
+    </div>
+
+    <!-- MIDDLE: Stats vertical -->
+    <div class="hero-stats-middle">
+      <div class="stat">
+        <span class="stat-num">3.6</span>
+        <span class="stat-label">GPA</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">4+</span>
+        <span class="stat-label">Projects</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">10%</span>
+        <span class="stat-label">ML Accuracy Boost</span>
       </div>
     </div>
+
+    <!-- RIGHT: Photo -->
     <div class="hero-photo-wrap">
       <img src="Srija.jpg" alt="Srija Chada" class="hero-photo" />
     </div>
+
   </div>
 </section>
 
