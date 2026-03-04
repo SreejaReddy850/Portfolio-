@@ -98,6 +98,56 @@
       overflow: hidden;
     }
 
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      gap: 60px;
+      position: relative;
+    }
+
+    .hero-photo-wrap {
+      flex-shrink: 0;
+      position: relative;
+      opacity: 0;
+      animation: fadeUp 0.6s ease 1s forwards;
+    }
+
+    .hero-photo {
+      width: 280px;
+      height: 280px;
+      object-fit: cover;
+      object-position: top;
+      border-radius: 50%;
+      border: 5px solid var(--teal);
+      box-shadow: 0 0 30px rgba(14,165,160,0.4), 0 2px 4px rgba(0,0,0,0.3);
+      display: block;
+      opacity: 0.95;
+      transition: transform 0.6s ease-in-out, box-shadow 0.3s ease;
+    }
+
+    .hero-photo:hover {
+      transform: rotateY(180deg);
+      box-shadow: 0 0 50px rgba(14,165,160,0.7);
+    }
+
+    .hero-photo-wrap::before {
+      content: "";
+      position: absolute;
+      top: -8px; left: -8px;
+      width: 296px; height: 296px;
+      border: 2px dashed rgba(14,165,160,0.4);
+      border-radius: 50%;
+      z-index: -1;
+      animation: spin 12s linear infinite;
+    }
+
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
     .hero-bg {
       position: absolute; inset: 0;
       background: radial-gradient(ellipse at 70% 50%, rgba(14,165,160,0.08) 0%, transparent 60%),
@@ -111,7 +161,7 @@
       background-size: 60px 60px;
     }
 
-    .hero-content { position: relative; max-width: 700px; }
+    .hero-content { position: relative; max-width: 600px; flex: 1; }
 
     .hero-tag {
       font-family: 'JetBrains Mono', monospace;
@@ -190,9 +240,9 @@
     }
     .btn-outline:hover { background: rgba(14,165,160,0.1); transform: translateY(-2px); }
 
-    .hero-stats {
-      position: absolute; right: 60px; bottom: 80px;
-      display: flex; gap: 48px;
+    .hero-stats-row {
+      display: flex; gap: 48px; flex-wrap: wrap;
+      margin-top: 48px;
       opacity: 0;
       animation: fadeUp 0.6s ease 1.2s forwards;
     }
@@ -479,6 +529,54 @@
 
     .edu-card:hover { border-color: var(--teal); transform: translateY(-4px); }
 
+    .edu-logo {
+      width: 52px; height: 52px;
+      border-radius: 10px;
+      background: rgba(14,165,160,0.1);
+      border: 1px solid rgba(14,165,160,0.2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 26px;
+      margin-bottom: 16px;
+      flex-shrink: 0;
+    }
+
+    .edu-header { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 12px; }
+    .edu-header-text { flex: 1; }
+
+    .edu-courses-label {
+      font-size: 11px; color: var(--teal);
+      letter-spacing: 1px; text-transform: uppercase;
+      font-weight: 600; margin-bottom: 8px; margin-top: 16px;
+    }
+
+    .edu-courses { display: flex; flex-wrap: wrap; gap: 6px; }
+    .edu-course {
+      background: rgba(14,165,160,0.08);
+      border: 1px solid rgba(14,165,160,0.2);
+      color: var(--gray-light);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .edu-research {
+      margin-top: 16px;
+      padding: 12px 16px;
+      background: rgba(240,165,0,0.06);
+      border: 1px solid rgba(240,165,0,0.2);
+      border-radius: 8px;
+      border-left: 3px solid var(--gold);
+    }
+
+    .edu-research-label {
+      font-size: 11px; color: var(--gold);
+      letter-spacing: 1px; text-transform: uppercase;
+      font-weight: 600; margin-bottom: 6px;
+    }
+
+    .edu-research-text { font-size: 12px; color: var(--gray); line-height: 1.6; }
+
     .edu-degree {
       font-family: 'DM Serif Display', serif;
       font-size: 20px;
@@ -616,7 +714,10 @@
       section { padding: 80px 24px; }
       #hero { padding: 120px 24px 80px; }
       .about-grid { grid-template-columns: 1fr; gap: 40px; }
-      .hero-stats { position: static; margin-top: 48px; justify-content: flex-start; }
+      .hero-inner { flex-direction: column-reverse; gap: 32px; align-items: center; }
+      .hero-photo { width: 200px; height: 200px; }
+      .hero-photo-wrap::before { width: 216px; height: 216px; top: -8px; left: -8px; }
+      .hero-stats-row { gap: 24px; }
     }
   </style>
 </head>
@@ -712,7 +813,7 @@
           <span class="info-icon">✉️</span>
           <div>
             <div class="info-label">Email</div>
-            <div class="info-value">srijachada4@gmail.com</div>
+            <div class="info-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="e09392898a818388818481d4a0878d81898cce838f8d">[email&#160;protected]</a></div>
           </div>
         </div>
         <div class="info-item">
@@ -957,27 +1058,81 @@
     <h2 class="section-title">Academic Background</h2>
   </div>
   <div class="edu-grid reveal">
+
+    <!-- MASTERS -->
     <div class="edu-card">
-      <div class="edu-degree">Master of Science</div>
-      <div style="font-size:13px;color:#8892a4;margin-bottom:10px;">Computer & Information Sciences</div>
-      <div class="edu-school">University of South Alabama</div>
-      <div class="edu-year">2022 — 2023 · Mobile, AL</div>
-      <span class="edu-gpa">GPA: 3.6 / 4.0</span>
+      <div class="edu-header">
+        <div class="edu-logo">🎓</div>
+        <div class="edu-header-text">
+          <div class="edu-degree">Master of Science</div>
+          <div style="font-size:13px;color:#8892a4;margin-bottom:6px;">Computer & Information Sciences</div>
+          <div class="edu-school">University of South Alabama</div>
+          <div class="edu-year">2022 — 2023 · Mobile, AL</div>
+          <span class="edu-gpa">GPA: 3.6 / 4.0</span>
+        </div>
+      </div>
+      <div class="edu-courses-label">Relevant Coursework</div>
+      <div class="edu-courses">
+          <span class="edu-course">CIS Research Methodologies</span>
+          <span class="edu-course">Information Assurance / IT Audit</span>
+          <span class="edu-course">App Design & Implementation</span>
+          <span class="edu-course">Info Systems Analysis & Design</span>
+          <span class="edu-course">Database Management</span>
+          <span class="edu-course">Project & Change Management</span>
+          <span class="edu-course">Function Integration</span>
+          <span class="edu-course">Enterprise Integration</span>
+          <span class="edu-course">Cloud Computing</span>
+      </div>
+      <div class="edu-research">
+        <div class="edu-research-label">📄 Research Paper — CIS 518</div>
+        <div class="edu-research-text">Authored an independent research paper on <strong style="color:#f8f4ef;">Voice-Based Email (VE-Mail) systems for visually impaired users</strong>. Conducted a comprehensive literature review of 9+ peer-reviewed IEEE publications. Analyzed AI-driven technologies including speech recognition, face recognition, and IVR systems. Proposed fingerprint-based authentication as the most secure login method.</div>
+      </div>
     </div>
+
+    <!-- BACHELORS -->
     <div class="edu-card">
-      <div class="edu-degree">Bachelor of Science</div>
-      <div style="font-size:13px;color:#8892a4;margin-bottom:10px;">Computer Science Engineering</div>
-      <div class="edu-school">Malla Reddy Institute of Engineering</div>
-      <div class="edu-year">2018 — 2021 · Hyderabad, India</div>
-      <span class="edu-gpa">GPA: 7.2 / 10</span>
+      <div class="edu-header">
+        <div class="edu-logo">🏛️</div>
+        <div class="edu-header-text">
+          <div class="edu-degree">Bachelor of Science</div>
+          <div style="font-size:13px;color:#8892a4;margin-bottom:6px;">Computer Science Engineering</div>
+          <div class="edu-school">Malla Reddy Institute of Engineering</div>
+          <div class="edu-year">2018 — 2021 · Hyderabad, India</div>
+          <span class="edu-gpa">GPA: 7.2 / 10</span>
+        </div>
+      </div>
+      <div class="edu-courses-label">Relevant Coursework</div>
+      <div class="edu-courses">
+          <span class="edu-course">OOP (Java)</span>
+          <span class="edu-course">Data Structures</span>
+          <span class="edu-course">Operating Systems</span>
+          <span class="edu-course">DBMS</span>
+          <span class="edu-course">Computer Organization & Architecture</span>
+          <span class="edu-course">Design & Analysis of Algorithms</span>
+          <span class="edu-course">Software Engineering</span>
+          <span class="edu-course">Compiler Design</span>
+          <span class="edu-course">Computer Networks</span>
+          <span class="edu-course">Web Technologies</span>
+          <span class="edu-course">Artificial Intelligence</span>
+          <span class="edu-course">FLAT</span>
+          <span class="edu-course">Data Mining</span>
+      </div>
     </div>
+
+    <!-- DIPLOMA -->
     <div class="edu-card">
-      <div class="edu-degree">Diploma</div>
-      <div style="font-size:13px;color:#8892a4;margin-bottom:10px;">Electrical & Electronics Engineering</div>
-      <div class="edu-school">Balaji Institute of Technology & Science</div>
-      <div class="edu-year">2015 — 2018</div>
-      <span class="edu-gpa">GPA: 8.5 / 10</span>
+      <div class="edu-header">
+        <div class="edu-logo">⚡</div>
+        <div class="edu-header-text">
+          <div class="edu-degree">Diploma</div>
+          <div style="font-size:13px;color:#8892a4;margin-bottom:6px;">Electrical & Electronics Engineering</div>
+          <div class="edu-school">Balaji Institute of Technology & Science</div>
+          <div class="edu-year">2015 — 2018 · Warangal, Hyderabad, India</div>
+          <span class="edu-gpa">GPA: 8.5 / 10</span>
+        </div>
+      </div>
     </div>
+
   </div>
 </section>
 
@@ -1021,10 +1176,10 @@
     <p class="contact-subtitle">I am currently open to full-time opportunities in Data Analytics, Business Intelligence, IT Business Analysis, and ML Engineering. Feel free to reach out!</p>
 
     <div class="contact-cards">
-      <a href="mailto:srijachada4@gmail.com" class="contact-card">
+      <a href="/cdn-cgi/l/email-protection#f685849f9c97959e979297c2b6919b979f9ad895999b" class="contact-card">
         <span class="contact-card-icon">✉️</span>
         <div class="contact-card-label">Email</div>
-        <div class="contact-card-value">srijachada4@gmail.com</div>
+        <div class="contact-card-value"><span class="__cf_email__" data-cfemail="9be8e9f2f1faf8f3fafffaafdbfcf6faf2f7b5f8f4f6">[email&#160;protected]</span></div>
       </a>
       <a href="tel:+12513736506" class="contact-card">
         <span class="contact-card-icon">📞</span>
@@ -1052,23 +1207,9 @@
   <span>© 2026</span> Srija Chada · Built with <span>♥</span> · Mobile, Alabama
 </footer>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  }, { threshold: 0.1 });
-  reveals.forEach(el => observer.observe(el));
-
-  // Nav scroll effect
-  window.addEventListener('scroll', () => {
-    const nav = document.querySelector('nav');
-    nav.style.boxShadow = window.scrollY > 50 ? '0 4px 30px rgba(0,0,0,0.4)' : 'none';
-  });
-</script>
-</body>
-</html>
